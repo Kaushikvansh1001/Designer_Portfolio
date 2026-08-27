@@ -261,8 +261,6 @@ a {
   overflow: visible;
   transform: translate3d(calc(var(--mx) * 10px), calc(var(--my) * 8px), 0);
   transition: transform 0.4s ease-out;
-  opacity: 0;
-  animation: heroFade 0.9s ease 0.08s forwards;
 }
 
 .hero__p {
@@ -336,35 +334,6 @@ a {
   flex-direction: column;
   justify-content: flex-start;
   padding: 0 8px 28px 4px;
-}
-
-.intro__hello,
-.intro__name,
-.intro__tagline,
-.intro__bio,
-.intro__actions {
-  opacity: 0;
-  animation: riseIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.intro__hello {
-  animation-delay: 0.28s;
-}
-
-.intro__name {
-  animation-delay: 0.4s;
-}
-
-.intro__tagline {
-  animation-delay: 0.52s;
-}
-
-.intro__bio {
-  animation-delay: 0.64s;
-}
-
-.intro__actions {
-  animation-delay: 0.76s;
 }
 
 .intro__hello {
@@ -508,8 +477,6 @@ a {
   z-index: 2;
   transform: translate3d(calc(var(--mx) * -16px), calc(var(--my) * -12px), 0);
   transition: transform 0.45s ease-out;
-  opacity: 0;
-  animation: riseIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards;
 }
 
 .portrait__panel {
@@ -992,9 +959,17 @@ a {
   transform: translate(-50%, -50%);
   transform-origin: center center;
   transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.works__stage.is-ready {
+  overflow: visible;
+}
+
+.works__stage.is-ready .work-card {
+  pointer-events: auto;
   transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
     filter 0.7s ease, opacity 0.7s ease, box-shadow 0.7s ease;
-  will-change: transform, filter, opacity;
 }
 
 .work-card.is-active {
@@ -1255,9 +1230,9 @@ a {
   flex-direction: column;
   align-items: center;
   width: var(--s);
-  opacity: 0;
+  opacity: 1;
   translate: calc(var(--mx) * var(--depth)) calc(var(--my) * var(--depth));
-  transition: translate 0.45s ease-out, opacity 0.55s ease;
+  transition: translate 0.45s ease-out;
   transform-origin: center center;
 }
 
@@ -1663,40 +1638,6 @@ a {
   line-height: 1.5;
   font-weight: 500;
   color: rgba(60, 33, 24, 0.82);
-}
-
-.process--pending:not(.is-inview) .pin-card {
-  opacity: 0;
-}
-
-.process.is-inview .pin-card {
-  animation: processStepIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.process.is-inview .pin-card:nth-child(1) {
-  animation-delay: 0.05s;
-}
-
-.process.is-inview .pin-card:nth-child(2) {
-  animation-delay: 0.16s;
-}
-
-.process.is-inview .pin-card:nth-child(3) {
-  animation-delay: 0.27s;
-}
-
-.process.is-inview .pin-card:nth-child(4) {
-  animation-delay: 0.38s;
-}
-
-@keyframes processStepIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
 }
 
 .journey {
@@ -2273,11 +2214,6 @@ a {
   .portrait {
     opacity: 1;
     transform: none;
-  }
-
-  .process--pending:not(.is-inview) .pin-card {
-    opacity: 1;
-    translate: 0;
   }
 
   .skill {

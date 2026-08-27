@@ -17,6 +17,18 @@
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <style>
+      html { background: #f9f6ed; }
+      .works__stage { position: relative; height: min(62vh, 540px); }
+      .works__stage:not(.is-ready) { overflow: hidden; }
+      .works__stage:not(.is-ready) .work-card {
+        position: absolute;
+        inset: 0 auto auto 0;
+        opacity: 0 !important;
+        pointer-events: none;
+      }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

@@ -1,5 +1,3 @@
-import "./styles.css";
-
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (event) => {
     const id = link.getAttribute("href");
@@ -33,19 +31,9 @@ if (hero && !prefersReduced) {
 
 const skillsSection = document.querySelector(".skills");
 if (skillsSection) {
-  if (prefersReduced) {
-    skillsSection.classList.add("is-inview");
-  } else {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries[0]?.isIntersecting) return;
-        skillsSection.classList.add("is-inview");
-        observer.disconnect();
-      },
-      { threshold: 0.22 }
-    );
-    observer.observe(skillsSection);
+  skillsSection.classList.add("is-inview");
 
+  if (!prefersReduced) {
     skillsSection.addEventListener("pointermove", (event) => {
       const bounds = skillsSection.getBoundingClientRect();
       const x = (event.clientX - bounds.left) / bounds.width - 0.5;
@@ -63,26 +51,7 @@ if (skillsSection) {
 
 const processSection = document.querySelector(".process");
 if (processSection) {
-  if (prefersReduced) {
-    processSection.classList.add("is-inview");
-  } else {
-    processSection.classList.add("process--pending");
-
-    const reveal = () => {
-      processSection.classList.add("is-inview");
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries[0]?.isIntersecting) return;
-        reveal();
-        observer.disconnect();
-      },
-      { threshold: 0.22, rootMargin: "0px 0px -8% 0px" }
-    );
-
-    observer.observe(processSection);
-  }
+  processSection.classList.add("is-inview");
 }
 
 const carousel = document.querySelector("[data-carousel]");
@@ -234,6 +203,41 @@ if (carousel) {
   });
 
   window.addEventListener("resize", layout);
-  layout();
-  play();
+
+  const reveal = () => {
+    layout();
+    requestAnimationFrame(() => {
+      stage.classList.add("is-ready");
+      play();
+    });
+  };
+
+  const images = slides
+    .map((slide) => slide.querySelector("img"))
+    .filter(Boolean);
+
+  images.forEach((img) => {
+    if (!img.complete) {
+      img.addEventListener("load", layout, { once: true });
+    }
+  });
+
+  const pending = images.filter((img) => !img.complete);
+
+  if (pending.length) {
+    Promise.race([
+      Promise.all(
+        pending.map(
+          (img) =>
+            new Promise((resolve) => {
+              img.addEventListener("load", resolve, { once: true });
+              img.addEventListener("error", resolve, { once: true });
+            })
+        )
+      ),
+      new Promise((resolve) => window.setTimeout(resolve, 900)),
+    ]).then(reveal);
+  } else {
+    reveal();
+  }
 }
