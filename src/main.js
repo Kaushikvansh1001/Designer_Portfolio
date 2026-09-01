@@ -260,27 +260,66 @@ if (projectModal) {
   const imageEl = projectModal.querySelector(".project-modal__img");
   const bodyEl = projectModal.querySelector(".project-modal__body");
   const closeBtn = projectModal.querySelector(".project-modal__close");
+  const prevBtn = projectModal.querySelector("[data-gallery-prev]");
+  const nextBtn = projectModal.querySelector("[data-gallery-next]");
+  const countEl = projectModal.querySelector("[data-gallery-count]");
   let lastFocus = null;
+  let gallery = [];
+  let galleryIndex = 0;
+
+  const showSlide = () => {
+    const src = gallery[galleryIndex];
+    if (!src) return;
+    imageEl.src = src;
+    const multi = gallery.length > 1;
+    imageEl.alt = multi
+      ? `${titleEl.textContent}, image ${galleryIndex + 1} of ${gallery.length}`
+      : imageEl.alt || titleEl.textContent;
+    projectModal.classList.toggle("is-gallery", multi);
+    if (prevBtn) prevBtn.hidden = !multi;
+    if (nextBtn) nextBtn.hidden = !multi;
+    if (countEl) {
+      countEl.hidden = !multi;
+      countEl.textContent = `${galleryIndex + 1} / ${gallery.length}`;
+    }
+  };
+
+  const stepGallery = (dir) => {
+    if (gallery.length < 2) return;
+    galleryIndex = (galleryIndex + dir + gallery.length) % gallery.length;
+    showSlide();
+  };
 
   const closeProject = () => {
     if (projectModal.hidden) return;
     projectModal.hidden = true;
+    projectModal.classList.remove("is-gallery");
     imageEl.removeAttribute("src");
+    gallery = [];
+    galleryIndex = 0;
     document.body.classList.remove("is-modal-open");
     resumeWorks();
     lastFocus?.focus();
   };
 
   const openProject = (button) => {
-    const src = button.getAttribute("data-project-src");
     const title = button.getAttribute("data-project-title") || "Project";
-    const img = button.querySelector("img");
-    if (!src) return;
+    const galleryAttr = button.getAttribute("data-project-gallery");
+    const src = button.getAttribute("data-project-src");
+    const items = galleryAttr
+      ? galleryAttr.split(",").map((item) => item.trim()).filter(Boolean)
+      : src
+        ? [src]
+        : [];
+    if (!items.length) return;
 
     lastFocus = button;
     titleEl.textContent = title;
-    imageEl.src = src;
+    gallery = items;
+    galleryIndex = 0;
+    const img = button.querySelector("img");
     imageEl.alt = img?.alt || title;
+    showSlide();
     bodyEl.scrollTop = 0;
     projectModal.hidden = false;
     document.body.classList.add("is-modal-open");
@@ -288,8 +327,19 @@ if (projectModal) {
     closeBtn.focus();
   };
 
-  document.querySelectorAll("[data-project-src]").forEach((button) => {
-    button.addEventListener("click", () => openProject(button));
+  document
+    .querySelectorAll("[data-project-src], [data-project-gallery]")
+    .forEach((button) => {
+      button.addEventListener("click", () => openProject(button));
+    });
+
+  prevBtn?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    stepGallery(-1);
+  });
+  nextBtn?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    stepGallery(1);
   });
 
   projectModal.querySelectorAll("[data-close-project]").forEach((el) => {
@@ -297,6 +347,15 @@ if (projectModal) {
   });
 
   document.addEventListener("keydown", (event) => {
+    if (projectModal.hidden) return;
     if (event.key === "Escape") closeProject();
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      stepGallery(-1);
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      stepGallery(1);
+    }
   });
 }

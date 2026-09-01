@@ -295,7 +295,7 @@
               <button
                 type="button"
                 class="work-card__hit"
-                data-project-src="/images/case-navu.jpg"
+                data-project-src="/images/case_Navu.jpeg"
                 data-project-title="NavU"
                 aria-haspopup="dialog"
                 aria-label="View NavU project"
@@ -316,19 +316,19 @@
               <button
                 type="button"
                 class="work-card__hit"
-                data-project-src="/images/case-problem-statement.jpg"
-                data-project-title="Fixing Problem Statement"
+                data-project-src="/images/case_alle.jpg"
+                data-project-title="Alle"
                 aria-haspopup="dialog"
-                aria-label="View Fixing Problem Statement project"
+                aria-label="View Alle project"
               >
                 <img
                   src="/images/work-alle.jpg"
                   width="1024"
                   height="588"
-                  alt="Alle: Your Personal AI Stylist — Fixing Problem Statement project by Radhika Garg."
+                  alt="Alle: Your Personal AI Stylist project by Radhika Garg."
                 />
                 <div class="work-card__caption">
-                  <h3>Fixing Problem Statement</h3>
+                  <h3>Alle</h3>
                 </div>
               </button>
             </article>
@@ -358,7 +358,7 @@
               <button
                 type="button"
                 class="work-card__hit"
-                data-project-src="/images/case-canvas.jpg"
+                data-project-gallery="/images/work-canvas.jpg,/images/canvas2.png,/images/canvas3.png,/images/canvas4.png"
                 data-project-title="Canvas Paintings"
                 aria-haspopup="dialog"
                 aria-label="View Canvas Paintings project"
@@ -379,7 +379,7 @@
               <button
                 type="button"
                 class="work-card__hit"
-                data-project-src="/images/case-rainbowlearn.jpg"
+                data-project-src="/images/case-rainbow.jpeg"
                 data-project-title="RainbowLearn"
                 aria-haspopup="dialog"
                 aria-label="View RainbowLearn case study"
@@ -413,6 +413,48 @@
                 />
                 <div class="work-card__caption">
                   <h3>Forge &amp; Fern</h3>
+                </div>
+              </button>
+            </article>
+
+            <article class="work-card">
+              <button
+                type="button"
+                class="work-card__hit"
+                data-project-gallery="/images/graphic1.jpeg,/images/graphic2.jpeg,/images/graphic3.jpeg,/images/graphic4.jpeg,/images/graphic5.jpeg,/images/graphic6.jpeg"
+                data-project-title="Graphic Design"
+                aria-haspopup="dialog"
+                aria-label="View Graphic Design project"
+              >
+                <div class="work-card__collage" aria-hidden="true">
+                  <img src="/images/graphic1.jpeg" alt="" />
+                  <img src="/images/graphic2.jpeg" alt="" />
+                  <img src="/images/graphic3.jpeg" alt="" />
+                  <img src="/images/graphic4.jpeg" alt="" />
+                  <img src="/images/graphic5.jpeg" alt="" />
+                  <img src="/images/graphic6.jpeg" alt="" />
+                </div>
+                <div class="work-card__caption">
+                  <h3>Graphic Design</h3>
+                </div>
+              </button>
+            </article>
+
+            <article class="work-card">
+              <button
+                type="button"
+                class="work-card__hit"
+                data-project-gallery="/images/mm1.jpg,/images/mm2.jpg,/images/mm3.jpg,/images/mm4.jpg,/images/mm5.jpg,/images/mm6.jpg"
+                data-project-title="Movemate"
+                aria-haspopup="dialog"
+                aria-label="View Movemate project"
+              >
+                <img
+                  src="/images/mm1.jpg"
+                  alt="Movemate project by Radhika Garg."
+                />
+                <div class="work-card__caption">
+                  <h3>Movemate</h3>
                 </div>
               </button>
             </article>
@@ -725,7 +767,28 @@
           </button>
         </div>
         <div class="project-modal__body">
-          <img class="project-modal__img" alt="" />
+          <div class="project-modal__viewer">
+            <button
+              type="button"
+              class="project-modal__nav project-modal__nav--prev"
+              data-gallery-prev
+              hidden
+              aria-label="Previous image"
+            >
+              ‹
+            </button>
+            <img class="project-modal__img" alt="" />
+            <button
+              type="button"
+              class="project-modal__nav project-modal__nav--next"
+              data-gallery-next
+              hidden
+              aria-label="Next image"
+            >
+              ›
+            </button>
+          </div>
+          <p class="project-modal__count" data-gallery-count hidden></p>
         </div>
       </div>
     </div>
