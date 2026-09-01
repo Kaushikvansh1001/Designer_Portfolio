@@ -13,6 +13,9 @@ const prefersReduced = window.matchMedia(
   "(prefers-reduced-motion: reduce)"
 ).matches;
 
+let pauseWorks = () => {};
+let resumeWorks = () => {};
+
 const hero = document.querySelector(".hero");
 if (hero && !prefersReduced) {
   hero.addEventListener("pointermove", (event) => {
@@ -122,6 +125,7 @@ if (carousel) {
   const play = () => {
     stop();
     if (prefersReduced) return;
+    if (document.body.classList.contains("is-modal-open")) return;
     timer = window.setInterval(() => goTo(index + 1), 4200);
   };
 
@@ -154,13 +158,17 @@ if (carousel) {
     startX = event.clientX;
     delta = 0;
     stop();
-    stage.setPointerCapture(event.pointerId);
   });
 
   stage.addEventListener("pointermove", (event) => {
     if (!dragging) return;
     delta = event.clientX - startX;
-    if (Math.abs(delta) > 10) dragged = true;
+    if (Math.abs(delta) > 24) {
+      if (!dragged) {
+        dragged = true;
+        stage.setPointerCapture(event.pointerId);
+      }
+    }
   });
 
   const endDrag = () => {
@@ -180,6 +188,7 @@ if (carousel) {
       if (!dragged) return;
       event.preventDefault();
       event.stopPropagation();
+      dragged = false;
     },
     true
   );
@@ -240,4 +249,54 @@ if (carousel) {
   } else {
     reveal();
   }
+
+  pauseWorks = stop;
+  resumeWorks = play;
+}
+
+const projectModal = document.querySelector("[data-project-modal]");
+if (projectModal) {
+  const titleEl = projectModal.querySelector("#project-modal-title");
+  const imageEl = projectModal.querySelector(".project-modal__img");
+  const bodyEl = projectModal.querySelector(".project-modal__body");
+  const closeBtn = projectModal.querySelector(".project-modal__close");
+  let lastFocus = null;
+
+  const closeProject = () => {
+    if (projectModal.hidden) return;
+    projectModal.hidden = true;
+    imageEl.removeAttribute("src");
+    document.body.classList.remove("is-modal-open");
+    resumeWorks();
+    lastFocus?.focus();
+  };
+
+  const openProject = (button) => {
+    const src = button.getAttribute("data-project-src");
+    const title = button.getAttribute("data-project-title") || "Project";
+    const img = button.querySelector("img");
+    if (!src) return;
+
+    lastFocus = button;
+    titleEl.textContent = title;
+    imageEl.src = src;
+    imageEl.alt = img?.alt || title;
+    bodyEl.scrollTop = 0;
+    projectModal.hidden = false;
+    document.body.classList.add("is-modal-open");
+    pauseWorks();
+    closeBtn.focus();
+  };
+
+  document.querySelectorAll("[data-project-src]").forEach((button) => {
+    button.addEventListener("click", () => openProject(button));
+  });
+
+  projectModal.querySelectorAll("[data-close-project]").forEach((el) => {
+    el.addEventListener("click", closeProject);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeProject();
+  });
 }

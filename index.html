@@ -40,6 +40,7 @@
     <div class="grain" aria-hidden="true"></div>
 
     <div class="page">
+      <div class="page-scale">
       <section class="hero" id="top">
         <div class="floaters" aria-hidden="true">
           <span class="bubble bubble--yellow" style="--x: 6%; --y: 16%; --s: 22px; --d: 0s"></span>
@@ -291,11 +292,13 @@
           </button>
           <div class="works__stage">
             <article class="work-card is-active">
-              <a
+              <button
+                type="button"
                 class="work-card__hit"
-                href="https://www.behance.net/gallery/250815137/AR-Project"
-                target="_blank"
-                rel="noopener noreferrer"
+                data-project-src="/images/case-navu.jpg"
+                data-project-title="NavU"
+                aria-haspopup="dialog"
+                aria-label="View NavU project"
               >
                 <img
                   src="/images/work-navu.jpg"
@@ -306,15 +309,17 @@
                 <div class="work-card__caption">
                   <h3>NavU</h3>
                 </div>
-              </a>
+              </button>
             </article>
 
             <article class="work-card">
-              <a
+              <button
+                type="button"
                 class="work-card__hit"
-                href="https://www.behance.net/gallery/240781209/FIXING-PROBLEM-STATEMENT"
-                target="_blank"
-                rel="noopener noreferrer"
+                data-project-src="/images/case-problem-statement.jpg"
+                data-project-title="Fixing Problem Statement"
+                aria-haspopup="dialog"
+                aria-label="View Fixing Problem Statement project"
               >
                 <img
                   src="/images/work-alle.jpg"
@@ -325,15 +330,17 @@
                 <div class="work-card__caption">
                   <h3>Fixing Problem Statement</h3>
                 </div>
-              </a>
+              </button>
             </article>
 
             <article class="work-card">
-              <a
+              <button
+                type="button"
                 class="work-card__hit"
-                href="https://www.behance.net/gallery/250809937/MindBloom-UX-Case-Study"
-                target="_blank"
-                rel="noopener noreferrer"
+                data-project-src="/images/case-mindbloom.jpg"
+                data-project-title="MindBloom"
+                aria-haspopup="dialog"
+                aria-label="View MindBloom case study"
               >
                 <img
                   src="/images/work-mindbloom.jpg"
@@ -344,15 +351,17 @@
                 <div class="work-card__caption">
                   <h3>MindBloom</h3>
                 </div>
-              </a>
+              </button>
             </article>
 
             <article class="work-card">
-              <a
+              <button
+                type="button"
                 class="work-card__hit"
-                href="https://www.behance.net/gallery/240563715/Canvas-Paintings"
-                target="_blank"
-                rel="noopener noreferrer"
+                data-project-src="/images/case-canvas.jpg"
+                data-project-title="Canvas Paintings"
+                aria-haspopup="dialog"
+                aria-label="View Canvas Paintings project"
               >
                 <img
                   src="/images/work-canvas.jpg"
@@ -363,15 +372,17 @@
                 <div class="work-card__caption">
                   <h3>Canvas Paintings</h3>
                 </div>
-              </a>
+              </button>
             </article>
 
             <article class="work-card">
-              <a
+              <button
+                type="button"
                 class="work-card__hit"
-                href="https://www.behance.net/gallery/250745239/RainbowLearn-UX-Case-Study"
-                target="_blank"
-                rel="noopener noreferrer"
+                data-project-src="/images/case-rainbowlearn.jpg"
+                data-project-title="RainbowLearn"
+                aria-haspopup="dialog"
+                aria-label="View RainbowLearn case study"
               >
                 <img
                   src="/images/work-rainbowlearn.jpg"
@@ -382,7 +393,28 @@
                 <div class="work-card__caption">
                   <h3>RainbowLearn</h3>
                 </div>
-              </a>
+              </button>
+            </article>
+
+            <article class="work-card">
+              <button
+                type="button"
+                class="work-card__hit"
+                data-project-src="/images/case-forge-fern.jpg"
+                data-project-title="Forge &amp; Fern"
+                aria-haspopup="dialog"
+                aria-label="View Forge and Fern logo project"
+              >
+                <img
+                  src="/images/work-forge-fern.jpg"
+                  width="521"
+                  height="451"
+                  alt="Forge &amp; Fern logo: a line-drawn flower above the brand name, by Radhika Garg."
+                />
+                <div class="work-card__caption">
+                  <h3>Forge &amp; Fern</h3>
+                </div>
+              </button>
             </article>
           </div>
           <button type="button" class="works__nav works__nav--next" data-works-next aria-label="Next project">
@@ -449,6 +481,7 @@
           </ul>
         </div>
       </section>
+      </div>
 
       <section class="process" id="process" aria-labelledby="process-title">
         <div class="process__inner">
@@ -556,6 +589,7 @@
         </div>
       </section>
 
+      <div class="page-scale">
       <section class="journey" id="education" aria-labelledby="education-title">
         <p class="journey__kicker">Education &amp; Work</p>
         <h2 id="education-title" class="journey__title">
@@ -618,6 +652,7 @@
           </article>
         </div>
       </section>
+      </div>
 
     </div>
 
@@ -669,6 +704,31 @@
         </div>
       </div>
     </footer>
+
+    <div class="project-modal" data-project-modal hidden>
+      <div class="project-modal__backdrop" data-close-project></div>
+      <div
+        class="project-modal__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="project-modal-title"
+      >
+        <div class="project-modal__bar">
+          <p id="project-modal-title" class="project-modal__title"></p>
+          <button
+            type="button"
+            class="project-modal__close"
+            data-close-project
+            aria-label="Close project"
+          >
+            ×
+          </button>
+        </div>
+        <div class="project-modal__body">
+          <img class="project-modal__img" alt="" />
+        </div>
+      </div>
+    </div>
 
     <script type="module" src="/src/main.js"></script>
   </body>
